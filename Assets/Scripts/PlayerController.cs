@@ -19,6 +19,23 @@ public class PlayerController : MonoBehaviour
     private float xAxis;
     Animator anim;
 
+
+    public static PlayerController Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance !=this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,11 +50,24 @@ public class PlayerController : MonoBehaviour
         GetInputs();
         Move();
         Jump();
+        Flip();
     }
 
     void GetInputs()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
+    }
+
+    void Flip()
+    {
+        if (xAxis < 0)
+        {
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+        }
+        else if (xAxis > 0)
+        {
+            transform.localScale = new Vector2(1, transform.localScale.y);
+        }
     }
 
     private void Move()
@@ -74,6 +104,6 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Jumping", !Grounded());
     }
 
-    
+
 
 }
