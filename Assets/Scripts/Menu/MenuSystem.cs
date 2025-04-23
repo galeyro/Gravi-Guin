@@ -5,26 +5,39 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
+	private Animator animator;
+	[SerializeField] private AnimationClip finalAnimation;
+
+	private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void Play()
     {
-        LoadNextScene();
+        StartCoroutine(LoadNextScene());
     }
 
     public void Exit()
     {
-        LoadPreviewScene();
-    }
+		StartCoroutine(LoadPreviousScene());
+	}
     public void Quit()
     {
         Application.Quit();
     }
 
-    public void LoadNextScene()
+    IEnumerator LoadNextScene()
     {
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(finalAnimation.length);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    public void LoadPreviewScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-    }
+	IEnumerator LoadPreviousScene()
+	{
+		Debug.Log("Intentando activar trigger 'Exit'");
+		animator.SetTrigger("Exit");
+		yield return new WaitForSeconds(finalAnimation.length);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+	}
 }

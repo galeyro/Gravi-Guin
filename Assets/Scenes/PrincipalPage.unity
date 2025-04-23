@@ -134,6 +134,8 @@ GameObject:
   - component: {fileID: 618064216}
   - component: {fileID: 618064215}
   - component: {fileID: 618064217}
+  - component: {fileID: 618064218}
+  - component: {fileID: 618064219}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -210,6 +212,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04df67356e84b349ab4d04aa91ee3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalAnimation: {fileID: 7400000, guid: a8f4e989ff8994141a8a36339784a96e, type: 2}
+--- !u!95 &618064218
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618064213}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 21f7c6f2498727545a0d0b31385d5b44, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &618064219
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618064213}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &901865703
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +521,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
