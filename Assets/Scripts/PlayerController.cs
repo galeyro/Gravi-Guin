@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 45;
     [SerializeField] private int jumpBufferFrames;
     private int jumpBufferCounter = 0;
-    
+    private float coyoteTimeCounter = 0;
+    [SerializeField] private float coyoteTime;
 
     [Header("Ground Check Settings")]
     [SerializeField] private Transform groundCheckPoint;
@@ -108,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
         if (!pState.jumping)
         {
-            if (jumpBufferCounter > 0 && Grounded())
+            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
             {
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
@@ -124,13 +125,18 @@ public class PlayerController : MonoBehaviour
         if (Grounded())
         {
             pState.jumping = false;
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
         }
 
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferFrames;
         }
-        else
+        else if (jumpBufferCounter > 0)
         {
             jumpBufferCounter--;
         }
