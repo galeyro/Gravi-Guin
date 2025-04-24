@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject dashEffect;
     [Space(5)]
 
+    [Header("Attacking")]
+    bool attack = false;
+    float timeBetweenAttack, timeSinceAttack;
+
     PlayerStateList pState;
     private Rigidbody2D rb;
     private float xAxis;
@@ -40,8 +44,7 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool dashed = false;
 
-    bool attack = false;
-    float timeBetweenAttack, timeSinceAttack;
+
 
 
 
@@ -171,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 0)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
@@ -186,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
                 pState.jumping = true;
             }
-            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetKeyDown(KeyCode.W))
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
             {
                 pState.jumping = true;
 
@@ -213,7 +216,7 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferFrames;
         }
