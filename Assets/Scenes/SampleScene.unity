@@ -314,7 +314,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -357,8 +357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c591910381f72b409234168c034a552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 0.6
-  offset: {x: 0, y: 0, z: 0}
+  followSpeed: 6
+  offset: {x: 0, y: 5, z: 0}
 --- !u!1 &664881705
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +547,7 @@ MonoBehaviour:
   dashSpeed: 70
   dashTime: 0.2
   dashCooldown: 0.35
+  dashEffect: {fileID: 1132303547569545268, guid: 74534062c227a464d88162c7198dfab5, type: 3}
 --- !u!95 &664881711
 Animator:
   serializedVersion: 5
