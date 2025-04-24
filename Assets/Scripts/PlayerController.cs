@@ -40,12 +40,16 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool dashed = false;
 
+    bool attack = false;
+    float timeBetweenAttack, timeSinceAttack;
+
+
 
     public static PlayerController Instance;
 
     private void Awake()
     {
-        if (Instance != null && Instance !=this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
@@ -64,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
 
-        anim  = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
 
         gravity = rb.gravityScale;
 
@@ -84,11 +88,13 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         StartDash();
+        Attack();
     }
 
     void GetInputs()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
+        attack = Input.GetMouseButtonDown(0);
     }
 
     void Flip()
@@ -139,9 +145,19 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
+    void Attack()
+    {
+        timeSinceAttack += Time.deltaTime;
+        if (attack && timeSinceAttack >= timeBetweenAttack)
+        {
+            timeSinceAttack = 0;
+            anim.SetTrigger("Attacking");
+        }
+    }
+
     public bool Grounded()
     {
-        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) 
+        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround)
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround)
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
         {
@@ -155,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if(Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        if (Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
@@ -170,7 +186,7 @@ public class PlayerController : MonoBehaviour
 
                 pState.jumping = true;
             }
-            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetKeyDown(KeyCode.W))
             {
                 pState.jumping = true;
 
@@ -179,9 +195,9 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
         }
-        
+
         anim.SetBool("Jumping", !Grounded());
-        anim.SetBool("Grounded", Grounded()); //Cambioooooooooooo
+        anim.SetBool("Grounded", Grounded()); 
     }
 
     void UpdateJumpVariables()
@@ -197,7 +213,7 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             jumpBufferCounter = jumpBufferFrames;
         }
@@ -207,5 +223,5 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    
+
 }
