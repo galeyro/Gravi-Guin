@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform SideAttackTransform, UpAttackTransform, DownAttackTransform;
     [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
     [SerializeField] private LayerMask attackableLayer;
-     
+    [SerializeField] float damage;
 
     PlayerStateList pState;
     private Rigidbody2D rb;
@@ -195,6 +195,14 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.Log($"Hit: {col.gameObject.name}");
                 }
+            }
+        }
+
+        for (int i = 0; i < objectsToHit.Length; i++ )
+        {
+            if (objectsToHit[i].GetComponent<Enemy>() != null)
+            {
+                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage);
             }
         }
     }
