@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask attackableLayer;
     [SerializeField] float damage;
     [SerializeField] GameObject hitEffect;
+    [SerializeField] GameObject hitUpEffect;
+    [SerializeField] GameObject hitDownEffect;
+
 
     PlayerStateList pState;
     private Rigidbody2D rb;
@@ -175,12 +178,12 @@ public class PlayerController : MonoBehaviour
             else if (yAxis > 0)
             {
                 Hit(UpAttackTransform, UpAttackArea);
-                HitEffectAtAngle(hitEffect, 90, UpAttackTransform);
+                HitEffectAtAngle(hitUpEffect, 180, UpAttackTransform);
             }
             else if (yAxis < 0 && !Grounded())
             {
                 Hit(DownAttackTransform, DownAttackArea);
-                HitEffectAtAngle(hitEffect, -90, DownAttackTransform);
+                HitEffectAtAngle(hitDownEffect, 0, DownAttackTransform);
             }
         }
     }
@@ -215,6 +218,8 @@ public class PlayerController : MonoBehaviour
         _hitEffect = Instantiate(_hitEffect, _attackTransform);
         _hitEffect.transform.eulerAngles = new Vector3(0, 0, _effectAngle);
         _hitEffect.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+
+        
     }
 
 
