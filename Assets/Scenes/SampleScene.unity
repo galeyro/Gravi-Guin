@@ -566,6 +566,10 @@ MonoBehaviour:
   hitEffect: {fileID: 2703844965993237939, guid: 018582cbec42e3e4292cd71c5e8f4e37, type: 3}
   hitUpEffect: {fileID: 3915654495121242605, guid: 6bf11e1f586a3dc4fb8de936c3be47d4, type: 3}
   hitDownEffect: {fileID: 1782362248587780627, guid: 93531d2740e7673479b8a9221011b229, type: 3}
+  recoilXSteps: 5
+  recoilYSteps: 5
+  recoilXSpeed: 100
+  recoilYSpeed: 100
 --- !u!95 &664881711
 Animator:
   serializedVersion: 5
@@ -601,6 +605,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumping: 0
   dashing: 0
+  recoilingX: 0
+  recoilingY: 0
+  lookingRight: 1
 --- !u!1 &689822151
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,6 +734,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  recoilLength: 0.5
+  recoilFactor: 5
+  isRecoiling: 0
 --- !u!61 &1767017500
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -736,7 +746,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1767017498}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1f038be594a85cf41b577142b3938b50, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
