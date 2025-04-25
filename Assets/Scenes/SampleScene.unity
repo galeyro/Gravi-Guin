@@ -563,6 +563,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 2
+  hitEffect: {fileID: 2703844965993237939, guid: 018582cbec42e3e4292cd71c5e8f4e37, type: 3}
 --- !u!95 &664881711
 Animator:
   serializedVersion: 5

@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
     [SerializeField] private LayerMask attackableLayer;
     [SerializeField] float damage;
+    [SerializeField] GameObject hitEffect;
 
     PlayerStateList pState;
     private Rigidbody2D rb;
@@ -169,14 +170,17 @@ public class PlayerController : MonoBehaviour
             if ((yAxis == 0) || (yAxis < 0 && Grounded()))
             {
                 Hit(SideAttackTransform, SideAttackArea);
+                Instantiate(hitEffect, SideAttackTransform);
             }
             else if (yAxis > 0)
             {
                 Hit(UpAttackTransform, UpAttackArea);
+                HitEffectAtAngle(hitEffect, 90, UpAttackTransform);
             }
             else if (yAxis < 0 && !Grounded())
             {
                 Hit(DownAttackTransform, DownAttackArea);
+                HitEffectAtAngle(hitEffect, -90, DownAttackTransform);
             }
         }
     }
@@ -188,7 +192,6 @@ public class PlayerController : MonoBehaviour
 
         if (objectsToHit.Length > 0)
         {
-            //Debug.Log("Hit"); // Este mensaje siempre se mostrará cuando detecte alguna colisión
             foreach (Collider2D col in objectsToHit)
             {
                 if (col.gameObject != gameObject)
@@ -205,6 +208,13 @@ public class PlayerController : MonoBehaviour
                 objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage);
             }
         }
+    }
+
+    void HitEffectAtAngle(GameObject _hitEffect, int _effectAngle, Transform _attackTransform)
+    {
+        _hitEffect = Instantiate(_hitEffect, _attackTransform);
+        _hitEffect.transform.eulerAngles = new Vector3(0, 0, _effectAngle);
+        _hitEffect.transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
     }
 
 
