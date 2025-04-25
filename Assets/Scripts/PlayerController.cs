@@ -34,11 +34,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attacking")]
     bool attack = false;
-    float timeBetweenAttack, timeSinceAttack;
+    [SerializeField] float timeBetweenAttack = 0.5f;
+    [SerializeField] float timeSinceAttack;
+    [SerializeField] Transform SideAttackTransform, UpAttackTransform, DownAttackTransform;
+    [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
+    [SerializeField] private LayerMask attackableLayer;
+     
 
     PlayerStateList pState;
     private Rigidbody2D rb;
-    private float xAxis;
+    private float xAxis, yAxis;
     private float gravity;
     Animator anim;
     private bool canDash = true;
@@ -64,20 +69,24 @@ public class PlayerController : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         pState = GetComponent<PlayerStateList>();
-
         rb = GetComponent<Rigidbody2D>();
-
         anim = GetComponent<Animator>();
-
         gravity = rb.gravityScale;
-
-        canDash = true; // Inicializado de nuevo para asegurar
-
+        canDash = true;
         dashed = false;
+
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(SideAttackTransform.position, SideAttackArea);
+        Gizmos.DrawWireCube(UpAttackTransform.position, UpAttackArea);
+        Gizmos.DrawWireCube(DownAttackTransform.position, DownAttackArea);
     }
 
     // Update is called once per frame
@@ -97,6 +106,7 @@ public class PlayerController : MonoBehaviour
     void GetInputs()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
+        yAxis = Input.GetAxisRaw("Vertical");
         attack = Input.GetMouseButtonDown(0);
     }
 
@@ -155,8 +165,41 @@ public class PlayerController : MonoBehaviour
         {
             timeSinceAttack = 0;
             anim.SetTrigger("Attacking");
+
+            if ((yAxis == 0) || (yAxis < 0 && Grounded()))
+            {
+                Hit(SideAttackTransform, SideAttackArea);
+            }
+            else if (yAxis > 0)
+            {
+                Hit(UpAttackTransform, UpAttackArea);
+            }
+            else if (yAxis < 0 && !Grounded())
+            {
+                Hit(DownAttackTransform, DownAttackArea);
+            }
         }
     }
+
+    void Hit(Transform _attackTransform, Vector2 _attackArea)
+    {
+        // Usar la máscara ya configurada 
+        Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
+
+        if (objectsToHit.Length > 0)
+        {
+            //Debug.Log("Hit"); // Este mensaje siempre se mostrará cuando detecte alguna colisión
+            foreach (Collider2D col in objectsToHit)
+            {
+                if (col.gameObject != gameObject)
+                {
+                    Debug.Log($"Hit: {col.gameObject.name}");
+                }
+            }
+        }
+    }
+
+
 
     public bool Grounded()
     {
