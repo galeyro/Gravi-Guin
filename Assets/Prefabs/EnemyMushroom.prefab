@@ -175,8 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  recoilLength: 2
-  recoilFactor: 10
+  recoilLength: 0.1
+  recoilFactor: 2
   isRecoiling: 0
   player: {fileID: 0}
   speed: 3

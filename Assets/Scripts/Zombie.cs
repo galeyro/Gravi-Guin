@@ -21,7 +21,15 @@ public class Zombie : Enemy
         base.Update();
         if (!isRecoiling)
         {
-            transform.position=Vector2.MoveTowards(transform.position, new Vector2(PlayerController.Instance.transform.position.x, transform.position.y), speed * Time.deltaTime);
+            float distance = Vector2.Distance(transform.position, PlayerController.Instance.transform.position);
+            if (distance <= 20f)
+            {
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    new Vector2(PlayerController.Instance.transform.position.x, transform.position.y),
+                    speed * Time.deltaTime
+                );
+            }
         }
     }
 

@@ -220,27 +220,22 @@ public class PlayerController : MonoBehaviour
 
     void Hit(Transform _attackTransform, Vector2 _attackArea, ref bool _recoilDir, float _recoilStrength)
     {
-        // Usar la máscara ya configurada 
         Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
 
-        if (objectsToHit.Length > 0)
+        bool hitEnemy = false;
+        for (int i = 0; i < objectsToHit.Length; i++)
         {
-            _recoilDir = true;
-            foreach (Collider2D col in objectsToHit)
+            Enemy enemy = objectsToHit[i].GetComponent<Enemy>();
+            if (enemy != null)
             {
-                if (col.gameObject != gameObject)
-                {
-                    Debug.Log($"Hit: {col.gameObject.name}");
-                }
+                hitEnemy = true;
+                enemy.EnemyHit(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
             }
         }
 
-        for (int i = 0; i < objectsToHit.Length; i++ )
+        if (hitEnemy)
         {
-            if (objectsToHit[i].GetComponent<Enemy>() != null)
-            {
-                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
-            }
+            _recoilDir = true;
         }
     }
 
