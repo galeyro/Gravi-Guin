@@ -20,7 +20,7 @@ public class CamaraScript : MonoBehaviour
     {
         if (PlayerController.Instance != null)
         {
-            Vector3 targetPosition = PlayerController.Instance.transform.position + offset;
+            Vector3 targetPosition = PlayerController.Instance.transform.position;
             targetPosition.z = transform.position.z; // Mantén el Z fijo
             transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
         }
