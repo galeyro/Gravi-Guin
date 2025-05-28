@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool dashed = false;
 
+    private Vector3 originalScale;
+
 
 
 
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
         gravity = rb.gravityScale;
         canDash = true;
         dashed = false;
+        originalScale = transform.localScale; //Guarda la escala original
 
     }
 
@@ -128,12 +131,12 @@ public class PlayerController : MonoBehaviour
     {
         if (xAxis < 0)
         {
-            transform.localScale = new Vector2(-1, transform.localScale.y);
+            transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
             pState.lookingRight = false;
         }
         else if (xAxis > 0)
         {
-            transform.localScale = new Vector2(1, transform.localScale.y);
+            transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
             pState.lookingRight = true;
         }
     }
