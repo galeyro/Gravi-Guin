@@ -1,6 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -54,8 +56,8 @@ public class PlayerController : MonoBehaviour
     [Space(5)]
 
     [Header("Health settings")]
-    [SerializeField] private int health;
-    [SerializeField] private int maxHealth;
+    public int health;
+    public  int maxHealth;
     [Space(5)]
 
 
@@ -212,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     void Hit(Transform _attackTransform, Vector2 _attackArea, ref bool _recoilDir, float _recoilStrength)
     {
-        // Usar la m�scara ya configurada 
+        // Usar la máscara ya configurada 
         Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
 
         if (objectsToHit.Length > 0)
@@ -313,7 +315,16 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         health -= Mathf.RoundToInt(_damage);
-        StartCoroutine(StopTakingDamage());
+        ClampHealth();
+
+        if (health <= 0)
+        {
+            Die(); // ← llama a la función que hace desaparecer al jugador
+        }
+        else
+        {
+            StartCoroutine(StopTakingDamage());
+        }
     }
 
     IEnumerator StopTakingDamage()
@@ -398,5 +409,12 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    void Die()
+    {
+        Debug.Log("Jugador ha muerto");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
 }
