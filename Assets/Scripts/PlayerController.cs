@@ -120,6 +120,12 @@ public class PlayerController : MonoBehaviour
         GetInputs();
         UpdateJumpVariables();
 
+        if(transform.position.y < -15)
+        {
+            Die();
+            return;
+        }
+
         if (pState.dashing) return;
         Flip();
         Move();
